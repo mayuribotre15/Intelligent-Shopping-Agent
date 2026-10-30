@@ -1,0 +1,51 @@
+﻿# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+.env
+*.env
+
+# ── pytest / coverage ─────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+*.lcov
+
+# ── Node / React ──────────────────────────────────────────────────────────────
+node_modules/
+frontend/build/
+frontend/.env
+npm-debug.log*
+yarn-error.log
+
+# ── IDEs ──────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Docker ────────────────────────────────────────────────────────────────────
+.dockerignore
+
+# ── Database ──────────────────────────────────────────────────────────────────
+*.db
+*.sqlite3
+postgres_data/
+
+# ── Uploads (transient) ───────────────────────────────────────────────────────
+uploads/
+
+# ── Alembic ───────────────────────────────────────────────────────────────────
+backend/alembic/versions/*.pyc

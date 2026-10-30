@@ -1,0 +1,28 @@
+# ============================================================
+# IBM Cloud Code Engine – Frontend Application Manifest
+# ============================================================
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: shopping-ai-frontend
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/maxScale: "3"
+    spec:
+      containers:
+        - image: au.icr.io/shopping-ai/frontend:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env:
+            - name: REACT_APP_API_URL
+              value: "https://shopping-ai-backend.au-syd.codeengine.appdomain.cloud/api/v1"

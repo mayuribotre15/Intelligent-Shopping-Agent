@@ -1,0 +1,52 @@
+# ============================================================
+# IBM Cloud Code Engine – Backend Application Manifest
+# ============================================================
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: shopping-ai-backend
+  annotations:
+    run.googleapis.com/description: "Intelligent Shopping AI Backend – FastAPI"
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/maxScale: "5"
+    spec:
+      containerConcurrency: 100
+      containers:
+        - image: au.icr.io/shopping-ai/backend:latest
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "2Gi"
+            limits:
+              cpu: "1000m"
+              memory: "4Gi"
+          env:
+            - name: APP_ENV
+              value: "production"
+            - name: WATSONX_MODEL_ID
+              value: "meta-llama/llama-3-3-70b-instruct"
+            - name: WATSONX_URL
+              value: "https://au-syd.ml.cloud.ibm.com"
+            - name: ALLOWED_ORIGINS
+              value: "https://shopping-ai-frontend.au-syd.codeengine.appdomain.cloud"
+          envFrom:
+            - secretRef:
+                name: shopping-ai-secrets
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
